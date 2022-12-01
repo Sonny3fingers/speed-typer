@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Settings from "./components/Settings";
 import Header from "./components/Header";
 import Timer from "./components/Timer";
@@ -7,31 +7,34 @@ import RandomWord from "./components/RandomWord";
 import InputText from "./components/InputText";
 import GameOver from "./components/GameOver";
 
-const words = [
-  "there",
-  "four",
-  "suitcase",
-  "almost",
-  "trunk",
-  "even",
-  "looking",
-  "father",
-  "noticed",
-  "laugh",
-  "shine",
-  "sharp",
-  "sitting",
-  "slam",
-  "distance",
-  "confide",
-  "nightmare",
-  "turn",
-  "deserted",
-  "kitchen",
-  "hungry",
-];
-
 function App() {
+  const words = useMemo(
+    () => [
+      "there",
+      "four",
+      "suitcase",
+      "almost",
+      "trunk",
+      "even",
+      "looking",
+      "father",
+      "noticed",
+      "laugh",
+      "shine",
+      "sharp",
+      "sitting",
+      "slam",
+      "distance",
+      "confide",
+      "nightmare",
+      "turn",
+      "deserted",
+      "kitchen",
+      "hungry",
+    ],
+    []
+  );
+
   const [time, setTime] = useState();
   const [addTime, setAddTime] = useState();
   const [score, setScore] = useState(0);
@@ -61,13 +64,17 @@ function App() {
     setEnteredText(text);
   };
 
-  useEffect(() => {
+  const getRandomWord = useCallback(() => {
     setWord(words[Math.floor(Math.random() * words.length)]);
+  }, [words]);
+
+  useEffect(() => {
+    getRandomWord();
     if (word === enteredText) {
       setScore((prevState) => prevState + 1);
       setTime((prevState) => prevState + addTime);
     }
-  }, [enteredText, addTime]);
+  }, [enteredText, addTime, getRandomWord]);
 
   useEffect(() => {
     if (+time !== 0) {

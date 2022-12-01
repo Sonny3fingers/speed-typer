@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 
 const Settings = (props) => {
-  const [difficulty, setDifficulty] = useState();
+  const [difficulty, setDifficulty] = useState("easy");
   const settingsRef = useRef();
 
   const changeSelectDifficulty = (e) => {
-    console.log(e.target.value);
     setDifficulty(e.target.value);
   };
 
